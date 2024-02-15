@@ -7,51 +7,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const appTitle = 'Form Styling Demo';
     return MaterialApp(
-      title: appTitle,
+      title: 'Form Validation Demo',
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text(appTitle),
-        ),
+        appBar: AppBar(title: const Text('Form Validation Demo')),
         body: const MyCustomForm(),
       ),
     );
   }
 }
 
-// class MyCustomForm extends StatelessWidget {
-//   const MyCustomForm({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: <Widget>[
-//         const Padding(
-//           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-//           child: TextField(
-//             decoration: InputDecoration(
-//               border: OutlineInputBorder(),
-//               hintText: 'Enter a search term',
-//             ),
-//           ),
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-//           child: TextFormField(
-//             decoration: const InputDecoration(
-//               border: UnderlineInputBorder(),
-//               labelText: 'Enter your username',
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-//allow us to use the take inside
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({super.key});
 
@@ -60,72 +25,48 @@ class MyCustomForm extends StatefulWidget {
 }
 
 class _MyCustomFormState extends State<MyCustomForm> {
-  // Create a text controller and use it to retrieve the current value
-  // of the TextField.
-  final myController = TextEditingController();
-  // Define the focus node. To manage the lifecycle, create the FocusNode in
-  // the initState method, and clean it up in the dispose method.
-  late FocusNode myFocusNode;
-
-  @override
-  void initState() {
-    super.initState();
-
-    myFocusNode = FocusNode();
-    // Start listening to changes.
-    myController.addListener(_printLatestValue);
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myFocusNode.dispose();
-    myController.dispose();
-    super.dispose();
-  }
-
-  void _printLatestValue() {
-    final text = myController.text;
-    print('Second text field: $text (${text.characters.length})');
-  }
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Retrieve Text Input'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              onChanged: (text) {
-                print('First text field: $text (${text.characters.length})');
-              },
-            ),
-            TextField(
-              autofocus: true,
-              controller: myController,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                // Retrieve the text the that user has entered by using the
-                // TextEditingController.
-                content: Text(myController.text),
-              );
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextFormField(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'please enter some text';
+              } else {
+                // final isNumber = RegExp(
+                //     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^'{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                final isNumber = RegExp(r"^[0-9]");
+
+                if (isNumber.hasMatch(value) && value.length == 11) {
+                  return null;
+                } else {
+                  return "Must eleven digit";
+                }
+              }
             },
-          );
-        },
-        tooltip: 'Show me the value!',
-        child: const Icon(Icons.textsms_sharp),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Processing Data'),
+                    ),
+                  );
+                }
+              },
+              child: const Text('Submit '),
+            ),
+          ),
+        ],
       ),
     );
   }
