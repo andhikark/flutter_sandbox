@@ -110,64 +110,17 @@ class _StudentInfoFormState extends State<StudentInfoForm> {
                       _studentId = _studentIdController.text;
                       _email = _emailController.text;
                     });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DisplayPage(
-                          name: _name,
-                          studentId: _studentId,
-                          email: _email,
-                        ),
-                      ),
-                    );
                   }
                 },
                 child: const Text('Submit'),
               ),
+              const SizedBox(height: 20.0),
+              Text(
+                'Name: $_name\nStudent ID: $_studentId\nEmail: $_email',
+                style: const TextStyle(fontSize: 16.0),
+              ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class DisplayPage extends StatelessWidget {
-  final String name;
-  final String studentId;
-  final String email;
-
-  const DisplayPage({
-    super.key,
-    required this.name,
-    required this.studentId,
-    required this.email,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Display Page'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Name: $name',
-              style: const TextStyle(fontSize: 18),
-            ),
-            Text(
-              'Student ID: $studentId',
-              style: const TextStyle(fontSize: 18),
-            ),
-            Text(
-              'Email: $email',
-              style: const TextStyle(fontSize: 18),
-            ),
-          ],
         ),
       ),
     );
