@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "289490264231",
+    "project_id": "fir-masterclass2",
+    "storage_bucket": "fir-masterclass2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289490264231:android:bce318e0c71463debdfb82",
+        "android_client_info": {
+          "package_name": "com.masterclass2.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqM7V9SmLPF-tjEIDE9ZGnci-iEaxA20A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
